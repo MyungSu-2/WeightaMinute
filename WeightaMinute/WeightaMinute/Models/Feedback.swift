@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: - 피드백 구조체
 struct Feedback {
     var date: Date
     var text: String

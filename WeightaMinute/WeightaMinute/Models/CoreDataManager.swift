@@ -59,12 +59,13 @@ final class CoreDataManager {
     }
     
     // 특정 월의 운동 기록 불러오기 (WorkoutRecordEntity -> WorkoutRecord)
-    func fetchMonthlyWorkoutRecords(forMonth date: Date) -> [WorkoutRecord] {
+    // [DateComponents: [WorkoutRecord]] 반환
+    func fetchMonthlyWorkoutRecords(forMonth dateComponents: DateComponents) -> [DateComponents: [WorkoutRecord]] {
         let calendar = Calendar.current
         // 전달한 날짜가 속한 달의 첫 날과 다음 달 첫 날을 이용하여 특정 월에 속한 날짜 구분
-        guard let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: date)),
+        guard let startOfMonth = calendar.date(from: dateComponents),
               let endOfMonth = calendar.date(byAdding: .month, value: 1, to: startOfMonth)
-        else { return [] }
+        else { return [:] }
         
         // date가 특정 월에 속하는 기록들만 fetch하는 요청 생성
         let request: NSFetchRequest<WorkoutRecordEntity> = WorkoutRecordEntity.fetchRequest()
@@ -72,20 +73,23 @@ final class CoreDataManager {
         request.predicate = predicate
         
         do {
-            // 조건에 해당하는 기록들을 fetch, WorkoutRecord 구조체에 매핑하여 반환
+            // 조건에 해당하는 기록들을 fetch, WorkoutRecord로 변환하여 날짜를 키로 하는 딕셔너리에 담아 반환
+            var recordDict: [DateComponents: [WorkoutRecord]] = [:]
             let recordEntities = try context.fetch(request)
-            return recordEntities.map { recordEntity in
+            recordEntities.forEach { recordEntity in
                 let sessions = recordEntity.sessionsArray.map { sessionEntity in
                     let sets = sessionEntity.setsArray.map {
                         ExerciseSet(weight: $0.weight, reps: $0.reps)
                     }
                     return WorkoutSession(exercise: sessionEntity.exercise ?? "", sets: sets)
                 }
-                return WorkoutRecord(date: recordEntity.date ?? Date(), sessions: sessions)
+                let dateComponents = calendar.dateComponents([.year, .month, .day], from: recordEntity.date!)
+                recordDict[dateComponents, default:[]].append(WorkoutRecord(date: recordEntity.date ?? Date(), sessions: sessions))
             }
+            return recordDict
         } catch {
             print("Workout records fetching error: \(error)")
-            return []
+            return [:]
         }
     }
     
@@ -201,5 +205,4 @@ final class CoreDataManager {
             print("Exercise deletion error: \(error)")
         }
     }
-    
 }

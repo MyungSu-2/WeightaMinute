@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - 운동 세트 구조체
+// 운동 기록 > 세션 > 세트
 struct ExerciseSet {
     var weight: Double
     var reps: Int16
