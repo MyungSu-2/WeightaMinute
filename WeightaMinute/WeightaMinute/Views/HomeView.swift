@@ -15,7 +15,7 @@ final class HomeView: UIView {
         button.setTitle("운동 관리", for: .normal)
         button.backgroundColor = Constants.Color.buttonBackground
         button.setTitleColor(Constants.Color.buttonText, for: .normal)
-        button.layer.cornerRadius = Constants.Size.smallcornerRadius
+        button.layer.cornerRadius = Constants.Size.smallCornerRadius
         return button
     }()
     
@@ -25,7 +25,7 @@ final class HomeView: UIView {
         button.setTitle("피드백 관리", for: .normal)
         button.backgroundColor = Constants.Color.buttonBackground
         button.setTitleColor(Constants.Color.buttonText, for: .normal)
-        button.layer.cornerRadius = Constants.Size.smallcornerRadius
+        button.layer.cornerRadius = Constants.Size.smallCornerRadius
         return button
     }()
     

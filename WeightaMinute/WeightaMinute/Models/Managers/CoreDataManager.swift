@@ -98,6 +98,7 @@ final class CoreDataManager {
         // WorkoutRecord에 해당하는 Entity를 찾기 위한 요청 생성
         let request: NSFetchRequest<WorkoutRecordEntity> = WorkoutRecordEntity.fetchRequest()
         let predicate = NSPredicate(format: "date == %@", record.date as CVarArg)
+        request.predicate = predicate
         
         // 정의한 요청으로 fetch한 결과 Entity들을 context에서 삭제
         do {

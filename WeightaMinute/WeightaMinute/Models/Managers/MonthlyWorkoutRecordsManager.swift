@@ -46,4 +46,15 @@ final class MonthlyWorkoutRecordsManager {
         let calendar = Calendar.current
         return calendar.dateComponents([.year, .month, .day], from: calendar.date(from: dateComponents)!)
     }
+    
+    // 날짜 정보를 받아 딕셔너리의 키 값으로 변환 후 해당 날짜의 운동 기록 배열을 반환하는 메서드
+    func getDailyWorkoutRecord(forDay dateComponents: DateComponents) -> [WorkoutRecord]? {
+        let key = getKeyFromDateComponents(from: dateComponents)
+        return getMonthlyRecordDict()[key]
+    }
+    
+    // 운동 기록이 있는 날들을 [DateComponents] 형태로 반환하는 메서드
+    func getDateComponentsToReload() -> [DateComponents] {
+        getMonthlyRecordDict().keys.map { $0 }
+    }
 }

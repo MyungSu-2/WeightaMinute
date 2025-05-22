@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - 프로젝트 상수 관리
 public struct Constants {
-    // 색상
+    // MARK: - 색상
     struct Color {
         // 배경 색상
         static let appBackground = UIColor.white
@@ -31,10 +31,15 @@ public struct Constants {
         static let deleteIcon = UIColor.red
         static let trashIcon = UIColor.black
         
+        // 캘린더 색상
+        static let calendarDotColorLevel1 = UIColor.green.withAlphaComponent(0.3)
+        static let calendarDotColorLevel2 = UIColor.green.withAlphaComponent(0.6)
+        static let calendarDotColorLevel3 = UIColor.green
+        
         private init() {}
     }
     
-    // 폰트
+    // MARK: - 폰트
     struct Font {
         // 텍스트 글꼴
         static let title = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -48,11 +53,11 @@ public struct Constants {
         private init() {}
     }
     
-    // 크기
+    // MARK: - 크기
     struct Size {
         // 둥근 모서리
         static let cornerRadius: CGFloat = 10
-        static let smallcornerRadius: CGFloat = 8
+        static let smallCornerRadius: CGFloat = 8
         
         // 버튼 높이
         static let managementButtonHeight: CGFloat = 40
@@ -65,7 +70,7 @@ public struct Constants {
         static let homeVerticalSpacing: CGFloat = 16
         
         // 캘린더 높이
-        static let calendarHeight: CGFloat = 350
+        static let calendarHeight: CGFloat = 450
         
         // 선 굵기
         static let borderWidth: CGFloat = 1.0
@@ -74,7 +79,7 @@ public struct Constants {
         private init() {}
     }
     
-    // 텍스트
+    // MARK: - 텍스트
     struct Message {
         static let emptyWorkoutRecord = "운동 기록이 없습니다."
         static let emptyExercises = "기록할 운동을 추가하세요."
