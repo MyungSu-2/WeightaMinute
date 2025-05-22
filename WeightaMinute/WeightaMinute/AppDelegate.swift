@@ -15,6 +15,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        // 코어 데이터 매니저에 context 주입
+        let context = persistentContainer.viewContext
+        CoreDataManager.shared.setContext(context: context)
+        
         return true
     }
 
