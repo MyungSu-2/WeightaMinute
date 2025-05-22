@@ -8,6 +8,8 @@
 import UIKit
 
 final class HomeViewController: UIViewController {
+    // MARK: - 뷰 컨트롤러 기본 설정
+    // 커스텀 뷰 사용
     private let homeView = HomeView()
     
     override func loadView() {
@@ -20,12 +22,14 @@ final class HomeViewController: UIViewController {
         setupActions()
     }
 
+    // 테이블 뷰 설정
     private func setupTableView() {
         homeView.tableView.dataSource = self
         homeView.tableView.delegate = self
         homeView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "homeTableViewCell")
     }
     
+    // 타겟 함수 등록
     private func setupActions() {
         homeView.recordButton.addTarget(self, action: #selector(recordButtonTapped), for: .touchUpInside)
     }
@@ -36,6 +40,7 @@ final class HomeViewController: UIViewController {
     }
 }
 
+// MARK: - 테이블 뷰 구현
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4

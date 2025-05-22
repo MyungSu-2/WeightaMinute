@@ -54,6 +54,7 @@ extension WorkoutRecordEntity {
     @objc(removeSessions:)
     @NSManaged public func removeFromSessions(_ values: NSOrderedSet)
     
+    // WorkoutSessionEntity에 배열처럼 접근하기 위한 계산 속성
     var sessionsArray: [WorkoutSessionEntity] {
         return sessions?.array as? [WorkoutSessionEntity] ?? []
     }

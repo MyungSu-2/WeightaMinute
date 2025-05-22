@@ -55,6 +55,7 @@ extension WorkoutSessionEntity {
     @objc(removeSets:)
     @NSManaged public func removeFromSets(_ values: NSOrderedSet)
     
+    // ExerciseSetEntity에 배열처럼 접근하기 위한 계산 속성
     var setsArray: [ExerciseSetEntity] {
         return sets?.array as? [ExerciseSetEntity] ?? []
     }
