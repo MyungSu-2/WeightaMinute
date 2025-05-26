@@ -15,6 +15,7 @@ final class HomeView: UIView {
         button.setTitle("운동 관리", for: .normal)
         button.backgroundColor = Constants.Color.buttonBackground
         button.setTitleColor(Constants.Color.buttonText, for: .normal)
+        button.titleLabel?.font = Constants.Font.smallButton
         button.layer.cornerRadius = Constants.Size.smallCornerRadius
         return button
     }()
@@ -25,6 +26,7 @@ final class HomeView: UIView {
         button.setTitle("피드백 관리", for: .normal)
         button.backgroundColor = Constants.Color.buttonBackground
         button.setTitleColor(Constants.Color.buttonText, for: .normal)
+        button.titleLabel?.font = Constants.Font.smallButton
         button.layer.cornerRadius = Constants.Size.smallCornerRadius
         return button
     }()
@@ -38,22 +40,29 @@ final class HomeView: UIView {
         stackView.alignment = . fill
         return stackView
     }()
-    
-    // 캘린더 뷰 - 홈 화면 달력
-    let calendarView: UICalendarView = {
-        let calendar = UICalendarView()
+
+    // 커스텀 캘린더 뷰 - 홈 화면 달력
+    let homeCalendarView: HomeCalendarView = {
+        let calendar = HomeCalendarView()
         calendar.layer.cornerRadius = Constants.Size.cornerRadius
-        calendar.layer.borderColor = Constants.Color.calendarBorder.cgColor
+        calendar.clipsToBounds = true
+        calendar.backgroundColor = .clear
+        calendar.layer.borderColor = Constants.Color.calendarBorder
         calendar.layer.borderWidth = Constants.Size.borderWidth
+        
         return calendar
     }()
+    
     
     // 테이블 뷰 - 홈 화면 운동 기록
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .singleLine
+        tableView.separatorInset = .zero
         tableView.separatorColor = Constants.Color.separator
         tableView.showsVerticalScrollIndicator = false
+        tableView.rowHeight = Constants.Size.tableViewCellHeight
+        
         return tableView
     }()
     
@@ -63,6 +72,7 @@ final class HomeView: UIView {
         button.setTitle("운동 기록하기", for: .normal)
         button.backgroundColor = Constants.Color.buttonBackground
         button.setTitleColor(Constants.Color.buttonText, for: .normal)
+        button.titleLabel?.font = Constants.Font.button
         button.layer.cornerRadius = Constants.Size.cornerRadius
         return button
     }()
@@ -82,14 +92,14 @@ final class HomeView: UIView {
     private func setupView() {
         backgroundColor = Constants.Color.appBackground
         
-        [topButtonsStackView, calendarView, tableView, recordButton].forEach {
+        [topButtonsStackView, homeCalendarView, tableView, recordButton].forEach {
             addSubview($0)
         }
     }
     
     // MARK: - 오토레이아웃 설정
     private func setupConstraints() {
-        [topButtonsStackView, calendarView, tableView, recordButton].forEach {
+        [topButtonsStackView, homeCalendarView, tableView, recordButton].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
@@ -100,11 +110,11 @@ final class HomeView: UIView {
             topButtonsStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.Size.horizontalMargin),
             topButtonsStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.Size.horizontalMargin),
             
-            // 캘린더 뷰 - 홈 화면 달력
-            calendarView.topAnchor.constraint(equalTo: topButtonsStackView.bottomAnchor, constant: Constants.Size.homeVerticalSpacing),
-            calendarView.heightAnchor.constraint(equalToConstant: Constants.Size.calendarHeight),
-            calendarView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.Size.horizontalMargin),
-            calendarView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.Size.horizontalMargin),
+            // 커스텀 캘린더 뷰 - 홈 화면 달력
+            homeCalendarView.topAnchor.constraint(equalTo: topButtonsStackView.bottomAnchor, constant: Constants.Size.homeVerticalSpacing),
+            homeCalendarView.heightAnchor.constraint(equalToConstant: Constants.Size.calendarHeight),
+            homeCalendarView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.Size.horizontalMargin),
+            homeCalendarView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.Size.horizontalMargin),
             
             // 하단 버튼 - 운동 기록하기
             recordButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.Size.homeVerticalSpacing),
@@ -113,7 +123,7 @@ final class HomeView: UIView {
             recordButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.Size.horizontalMargin),
             
             // 테이블 뷰 - 홈 화면 운동 기록
-            tableView.topAnchor.constraint(equalTo: calendarView.bottomAnchor, constant: Constants.Size.homeVerticalSpacing),
+            tableView.topAnchor.constraint(equalTo: homeCalendarView.bottomAnchor, constant: Constants.Size.homeVerticalSpacing),
             tableView.bottomAnchor.constraint(equalTo: recordButton.topAnchor, constant: -Constants.Size.homeVerticalSpacing),
             tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: Constants.Size.horizontalMargin),
             tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -Constants.Size.horizontalMargin)
