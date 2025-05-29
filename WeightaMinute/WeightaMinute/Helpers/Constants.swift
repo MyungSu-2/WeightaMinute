@@ -108,5 +108,10 @@ public struct Constants {
         private init() {}
     }
     
+    struct Icon {
+        static let calendarPrevButton = "chevron.left"
+        static let calendarNextButton = "chevron.right"
+    }
+    
     private init() {}
 }

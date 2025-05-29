@@ -22,7 +22,7 @@ final class HomeCalendarView: UIView {
     let prevButton: UIButton = {
         let button = UIButton(type: .system)
         let config = UIImage.SymbolConfiguration(pointSize: Constants.Font.calendarMonth.pointSize, weight: .bold)
-        let image = UIImage(systemName: "chevron.left", withConfiguration: config)
+        let image = UIImage(systemName: Constants.Icon.calendarPrevButton, withConfiguration: config)
         
         button.setImage(image, for: .normal)
         button.tintColor = Constants.Color.calendarText
@@ -34,7 +34,7 @@ final class HomeCalendarView: UIView {
     let nextButton: UIButton = {
         let button = UIButton(type: .system)
         let config = UIImage.SymbolConfiguration(pointSize: Constants.Font.calendarMonth.pointSize, weight: .bold)
-        let image = UIImage(systemName: "chevron.right", withConfiguration: config)
+        let image = UIImage(systemName: Constants.Icon.calendarNextButton, withConfiguration: config)
         
         button.setImage(image, for: .normal)
         button.tintColor = Constants.Color.calendarText

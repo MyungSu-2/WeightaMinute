@@ -21,10 +21,17 @@ final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupRecord()
         setupCalendarView()
         setupTableView()
         setupActions()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+        setupRecord()
+        updateCalendar(forMonth: MonthlyWorkoutRecordsManager.shared.getCurrentMonth())
+        homeView.tableView.reloadData()
     }
     
     // 현재 월의 기록 불러오기
@@ -32,10 +39,6 @@ final class HomeViewController: UIViewController {
         // 현재 월 정보 저장 및 현재 월의 운동 기록 불러오기
         MonthlyWorkoutRecordsManager.shared.setCurrentMonth(to: Calendar.current.dateComponents([.year, .month], from: Date()))
         MonthlyWorkoutRecordsManager.shared.loadMonthlyRecord()
-        
-        // MARK: - 테스트용 데이터로 변경
-        MonthlyWorkoutRecordsManager.shared.setTestRecordDict()
-        
         MonthlyWorkoutRecordsManager.shared.setMonthlyRecordArray()
     }
     
@@ -44,7 +47,6 @@ final class HomeViewController: UIViewController {
         homeView.homeCalendarView.calendarBody.dataSource = self
         homeView.homeCalendarView.calendarBody.delegate = self
         homeView.homeCalendarView.calendarBody.register(HomeCalendarCell.self, forCellWithReuseIdentifier: "HomeCalendarCell")
-        updateCalendar(forMonth: MonthlyWorkoutRecordsManager.shared.getCurrentMonth())
     }
 
     // 테이블 뷰 설정
@@ -107,23 +109,25 @@ final class HomeViewController: UIViewController {
     
     // MARK: - 타겟 메서드
     @objc private func prevMonthButtonTapped() {
-        // 저장 중인 월 정보 변경 후, 해당 월의 기록 불러오기, 해당 월로 캘린더 업데이트
+        // 저장 중인 월 정보 변경 후, 해당 월의 기록 불러오기, 해당 월로 캘린더 / 테이블 뷰 업데이트
         let calendar = Calendar.current
         guard let currentDate = calendar.date(from: MonthlyWorkoutRecordsManager.shared.getCurrentMonth()),
               let updateDate = calendar.date(byAdding: .month, value: -1, to: currentDate) else { return }
         MonthlyWorkoutRecordsManager.shared.setCurrentMonth(to: calendar.dateComponents([.year, .month], from: updateDate))
         MonthlyWorkoutRecordsManager.shared.loadMonthlyRecord()
         updateCalendar(forMonth: MonthlyWorkoutRecordsManager.shared.getCurrentMonth())
+        homeView.tableView.reloadData()
     }
     
     @objc private func nextMonthButtonTapped() {
-        // 저장 중인 월 정보 변경 후, 해당 월의 기록 불러오기, 해당 월로 캘린더 업데이트
+        // 저장 중인 월 정보 변경 후, 해당 월의 기록 불러오기, 해당 월로 캘린더 / 테이블 뷰 업데이트
         let calendar = Calendar.current
         guard let currentDate = calendar.date(from: MonthlyWorkoutRecordsManager.shared.getCurrentMonth()),
               let updateDate = calendar.date(byAdding: .month, value: 1, to: currentDate) else { return }
         MonthlyWorkoutRecordsManager.shared.setCurrentMonth(to: calendar.dateComponents([.year, .month], from: updateDate))
         MonthlyWorkoutRecordsManager.shared.loadMonthlyRecord()
         updateCalendar(forMonth: MonthlyWorkoutRecordsManager.shared.getCurrentMonth())
+        homeView.tableView.reloadData()
     }
     
     @objc private func recordButtonTapped() {
